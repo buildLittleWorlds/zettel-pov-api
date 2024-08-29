@@ -11,6 +11,23 @@ const { data: note, error } = await supabase
     .eq("id", id)
     .single();
 
+let relatedNotes: Note[] = [];
+
+if (note && !error) {
+    const { data: related, error: relatedError } = await supabase
+        .from("notes")
+        .select("*")
+        .neq("id", id)
+        .filter("tags", "cs", `{${note.tags.join(",")}}`)
+        .limit(5);
+
+    if (!relatedError && related) {
+        relatedNotes = related;
+    } else {
+        console.error("Error fetching related notes:", relatedError);
+    }
+}
+
 if (error) {
     console.error("Error fetching note:", error);
 }
@@ -53,7 +70,12 @@ if (error) {
                         )}
                 </ul>
                 <p>
-                    <strong>Tags:</strong> {note.tags.join(", ")}
+                    <strong>Tags:</strong>{" "}
+                    {note.tags
+                        .map((tag: string) => (
+                            <a href={`/search?q=${tag}`}>{tag}</a>
+                        ))
+                        .join(", ")}
                 </p>
                 <p>
                     <strong>Sequence Position:</strong>{" "}
@@ -70,6 +92,26 @@ if (error) {
                     <strong>Updated At:</strong>{" "}
                     {new Date(note.updated_at).toLocaleString()}
                 </p>
+
+                <h2>Related Notes</h2>
+                {relatedNotes.length > 0 ? (
+                    <ul>
+                        {relatedNotes.map((relatedNote) => (
+                            <li>
+                                <a href={`/notes/${relatedNote.id}`}>
+                                    {relatedNote.content.substring(0, 50)}...
+                                </a>
+                                <br />
+                                <small>
+                                    Tags: {relatedNote.tags.join(", ")}
+                                </small>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No related notes found.</p>
+                )}
+
                 <a href={`/notes/${note.id}/edit`}>Edit Note</a>
             </div>
         )
@@ -79,15 +121,17 @@ if (error) {
 
 <style>
     a {
-        display: inline-block;
-        margin-top: 1rem;
-        padding: 0.5rem 1rem;
-        background-color: #4a4a4a;
-        color: white;
+        color: #4a4a4a;
         text-decoration: none;
-        border-radius: 4px;
     }
     a:hover {
-        background-color: #3a3a3a;
+        text-decoration: underline;
+    }
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        margin-bottom: 1rem;
     }
 </style>

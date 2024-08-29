@@ -1,47 +1,38 @@
-# Astro Starter Kit: Minimal
+# Zettel POV API
 
-```sh
-npm create astro@latest -- --template minimal
-```
+## Overview
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+The Zettel POV API is a tool designed to enhance the study of literature by combining the Zettelkasten note-taking method with detailed Point of View (POV) analysis. This application allows users to create, connect, and analyze notes about literary works, focusing on narrative techniques and POV elements.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+### For Literature Students
 
-## 🚀 Project Structure
+This API (Application Programming Interface) serves as a digital tool to help you analyze and connect ideas from your literary studies. Here's how it can enhance your work:
 
-Inside of your Astro project, you'll see the following folders and files:
+1. **Atomic Note-Taking**: Create small, focused notes about specific aspects of literary works.
+2. **POV Analysis**: Analyze narrative techniques, including narrator trustworthiness, epistemic anomalies, and narration nodes.
+3. **Interconnected Ideas**: Use tags to create organic connections between related concepts across different works or authors.
+4. **Discover Patterns**: Explore relationships between ideas through tag clouds and related notes features.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+By using this tool, you'll be able to build a network of literary analysis that can reveal new insights and connections in your studies.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+### For Developers
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+This project is built using Astro.js and Supabase, implementing a Zettelkasten-inspired note-taking system with a focus on POV analysis in literature.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Technical Stack
 
-## 🧞 Commands
+- **Frontend**: Astro.js
+- **Backend**: Supabase (PostgreSQL database)
+- **API**: RESTful endpoints served by Astro.js
+- **Deployment**: [Specify your deployment platform, e.g., Vercel, Netlify]
 
-All commands are run from the root of the project, from a terminal:
+## Key Features
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+1. CRUD operations for notes
+2. Tagging system for organic note connections
+3. POV analysis fields (narrator trustworthiness, epistemic anomalies, narration nodes)
+4. Search functionality
+5. Related notes based on shared tags
+6. Tag cloud for exploring note connections
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Project Structure
