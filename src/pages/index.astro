@@ -1,5 +1,12 @@
 ---
+import { supabase } from "../lib/supabase";
+import type { Note } from "../types/note";
 
+const { data: notes, error } = await supabase.from("notes").select("*");
+
+if (error) {
+	console.error("Error fetching notes:", error);
+}
 ---
 
 <html lang="en">
@@ -8,9 +15,26 @@
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
+		<title>Zettel POV API</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<h1>Zettel POV Notes</h1>
+		{error && <p>Error loading notes: {error.message}</p>}
+		{
+			notes && (
+				<ul>
+					{notes.map((note: Note) => (
+						<li>
+							<strong>{note.pov_type}</strong>: {note.content}
+							<br />
+							<small>
+								Created at:{" "}
+								{new Date(note.created_at).toLocaleString()}
+							</small>
+						</li>
+					))}
+				</ul>
+			)
+		}
 	</body>
 </html>
