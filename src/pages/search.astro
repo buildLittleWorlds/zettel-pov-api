@@ -1,0 +1,99 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { supabase } from "../lib/supabase";
+import type { Note } from "../types/note";
+
+const query = Astro.url.searchParams.get("q") || "";
+
+let notes: Note[] = [];
+let error: any = null;
+
+if (query) {
+    const { data, error: searchError } = await supabase
+        .from("notes")
+        .select("*")
+        .or(`content.ilike.%${query}%, tags.cs.{${query}}`)
+        .order("created_at", { ascending: false });
+
+    if (searchError) {
+        console.error("Error searching notes:", searchError);
+        error = searchError;
+    } else {
+        notes = data;
+    }
+}
+---
+
+<Layout title="Search Results">
+    <h1>Search Results for "{query}"</h1>
+
+    <form action="/search" method="get">
+        <input
+            type="text"
+            name="q"
+            value={query}
+            placeholder="Search notes..."
+        />
+        <button type="submit">Search</button>
+    </form>
+
+    {error && <p>Error searching notes: {error.message}</p>}
+    {
+        notes.length === 0 ? (
+            <p>No results found.</p>
+        ) : (
+            <ul>
+                {notes.map((note: Note) => (
+                    <li>
+                        <a href={`/notes/${note.id}`}>
+                            <strong>{note.pov_type}</strong>:{" "}
+                            {note.content.substring(0, 50)}...
+                        </a>
+                        <br />
+                        <small>Tags: {note.tags.join(", ")}</small>
+                        <br />
+                        <small>
+                            Created at:{" "}
+                            {new Date(note.created_at).toLocaleString()}
+                        </small>
+                    </li>
+                ))}
+            </ul>
+        )
+    }
+    <a href="/">Back to Home</a>
+</Layout>
+
+<style>
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    li {
+        margin-bottom: 1rem;
+    }
+    a {
+        color: #4a4a4a;
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+    form {
+        margin-bottom: 1rem;
+    }
+    input[type="text"] {
+        padding: 0.5rem;
+        width: 60%;
+    }
+    button {
+        padding: 0.5rem 1rem;
+        background-color: #4a4a4a;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    button:hover {
+        background-color: #3a3a3a;
+    }
+</style>
