@@ -36,3 +36,48 @@ This project is built using Astro.js and Supabase, implementing a Zettelkasten-i
 6. Tag cloud for exploring note connections
 
 ## Project Structure
+
+```
+src/
+├── layouts/
+│   └── Layout.astro
+├── pages/
+│   ├── api/
+│   │   └── notes/
+│   │       ├── index.ts
+│   │       ├── [id].ts
+│   │       └── by-tag/
+│   │           └── [tag].ts
+│   ├── index.astro
+│   ├── new.astro
+│   ├── search.astro
+│   └── tags.astro
+├── lib/
+│   └── supabase.ts
+└── types/
+└── note.ts
+```
+
+## API Endpoints
+
+- `GET /api/notes`: Retrieve all notes
+- `POST /api/notes`: Create a new note
+- `GET /api/notes/:id`: Retrieve a specific note
+- `PUT /api/notes/:id`: Update a note
+- `DELETE /api/notes/:id`: Delete a note
+- `GET /api/notes/by-tag/:tag`: Retrieve notes with a specific tag
+
+## Getting Started
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Set up a Supabase project and add your credentials to a `.env` file
+4. Run the development server: `npm run dev`
+
+## Contributing
+
+[Include guidelines for contributing to the project]
+
+## License
+
+[Specify the license for your project]
